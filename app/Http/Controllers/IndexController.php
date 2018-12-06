@@ -11,14 +11,38 @@ use App\People;
 
 class IndexController extends Controller
 {
-    public function execute(Request $request){
+    public function execute(Request $request)
+    {
         $pages = Page::all();
         $portfolios = Portfolio::get(array('name', 'filter', 'images'));
         $services = Service::where('id', '<', 20)->get();
         $peoples = People::take(3)->get();
 
-       // dd($pages);
+        //dd($pages);
+        $menu = [];
+        foreach ($pages as $page) {
+            $item = ['title' => $page->name, 'alias' => $page->alias];
+            array_push($menu, $item);
+        }
+        ///static paragraph/////////////////////////////
+        $item = ['title' => 'Services', 'alias' => 'service'];
+        array_push($menu, $item);
 
-        return view('site.index');
+        $item = ['title' => 'Portfolio', 'alias' => 'Portfolio'];
+        array_push($menu, $item);
+
+        $item = ['title' => 'Team', 'alias' => 'team'];
+        array_push($menu, $item);
+
+        $item = ['title' => 'Contact', 'alias' => 'contact'];
+        array_push($menu, $item);
+        //////////////////////////////////////////////
+        return view('site.index', [
+            'menu' => $menu,
+            'pages' => $pages,
+            'portfolios' => $portfolios,
+            'services' => $services,
+            'peoples' => $peoples
+        ]);
     }
 }
