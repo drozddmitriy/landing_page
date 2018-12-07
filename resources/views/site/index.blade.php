@@ -2,8 +2,8 @@
 
 @section('header')
     @include('site.header')
-    @endsection
+@endsection
 
 @section('content')
     @include('site.content')
-    @endsection
+@endsection
