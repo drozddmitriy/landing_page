@@ -18,8 +18,8 @@ class IndexController extends Controller
         if($request->isMethod('post')){
 
             $messages = [
-                'required' => "Поле :atribute обязательно к заполнению",
-                'email' => "Поле :atribute должно соответствовать email адресу"
+                'required' => "Поле :attribute обязательно к заполнению",
+                'email' => "Поле :attribute должно соответствовать email адресу"
             ];
 
             $this->validate($request,[
@@ -30,8 +30,6 @@ class IndexController extends Controller
 
             $data = $request->all();
 
-            //dd($data['email']);
-
             $result = Mail::send('site.email', ['data' => $data], function ($message) use ($data){
                 $mail_admin = env('MAIL_ADMIN');
                 $message->from($data['email'], $data['name']);
@@ -39,12 +37,9 @@ class IndexController extends Controller
 
             });
 
-
             if($result){
                 return redirect()->route('home')->with('status','Email is send');
             }
-            ///mail
-
         }
 
         $pages = Page::all();
@@ -54,9 +49,6 @@ class IndexController extends Controller
 
         $tags = DB::table('portfolios')->distinct()->pluck('filter');
 
-        //dd($tags);
-
-        //dd($pages);
         $menu = [];
         foreach ($pages as $page) {
             $item = ['title' => $page->name, 'alias' => $page->alias];
