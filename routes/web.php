@@ -53,9 +53,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function (){
 
     Route::group(['prefix' => 'services'], function(){
         Route::get('/', ['uses' => 'ServiceController@execute', 'as' => 'services']);
-        //admin/pages/add
         Route::match(['get','post'], '/add', ['uses' => 'ServiceAddController@execute', 'as' => 'serviceAdd']);
-        //admin/edit/{2}
         Route::match(['get','post', 'delete'], '/edit/{service}', ['uses' => 'ServiceEditController@execute', 'as' => 'serviceEdit']);
     });
 
@@ -63,4 +61,4 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function (){
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+//Route::get('/home', 'HomeController@index')->name('home');
