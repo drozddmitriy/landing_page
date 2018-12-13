@@ -2,33 +2,31 @@
 
 namespace App\Http\Controllers;
 
+use App\Portfolio;
 use Illuminate\Http\Request;
-use App\Page;
 use Illuminate\Support\Facades\Validator;
 
-
-class PagesEditController extends Controller
+class PortfolioEditController extends Controller
 {
-    public function execute(Page $page, Request $request){
+    public function execute(Portfolio $portfolio, Request $request){
 
-        //$page = Page::find($id);
         if($request->isMethod('delete')){
-            $page->delete();
-            return redirect('admin')->with('status', 'Страница удалена');
+            $portfolio->delete();
+            return redirect('admin')->with('status', 'Портфолио удаленo');
         }
+
 
         if($request->isMethod('post')){
             $input = $request->except('_token');
 
             $validator = Validator::make($input, [
                 'name' => 'required|max:255',
-                'alias' => 'required|max:255|unique:pages,alias,'.$input['id'],
-                'text' => 'required'
-            ]);
+                'filter' => 'required|max:255',
+             ]);
 
             if($validator->fails()){
                 return redirect()
-                    ->route('pagesEdit', ['page' => $input['id']])
+                    ->route('portfolioEdit', ['portfolio' => $input['id']])
                     ->withErrors($validator)->withInput();
             }
 
@@ -43,22 +41,22 @@ class PagesEditController extends Controller
 
             unset($input['old_images']);
 
-            $page->fill($input);
+            $portfolio->fill($input);
 
-            if($page->update()){
+            if($portfolio->update()){
                 return redirect('admin')->with('status','Портфолио обновлено!');
             }
-
         }
 
-        $old = $page->toArray();
 
-        if(view()->exists('admin.pages_edit')){
+        $old = $portfolio->toArray();
+
+        if(view()->exists('admin.portfolio_edit')){
             $data = [
-                'title' => 'Редактирование страницы - '.$old['name'],
+                'title' => 'Редактирование портфолио - '.$old['name'],
                 'data' => $old
             ];
-            return view('admin.pages_edit', $data);
+            return view('admin.portfolio_edit', $data);
         }
 
     }
