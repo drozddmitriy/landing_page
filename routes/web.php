@@ -47,7 +47,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function (){
         Route::match(['get','post'], '/add', ['uses' => 'PortfolioAddController@execute', 'as' => 'portfolioAdd']);
         Route::match(['get','post', 'delete'], '/edit/{portfolio}', ['uses' => 'PortfolioEditController@execute', 'as' => 'portfolioEdit']);
     });
-
+    //admin/services
     Route::group(['prefix' => 'services'], function(){
         Route::get('/', ['uses' => 'ServiceController@execute', 'as' => 'services']);
         Route::match(['get','post'], '/add', ['uses' => 'ServiceAddController@execute', 'as' => 'serviceAdd']);
